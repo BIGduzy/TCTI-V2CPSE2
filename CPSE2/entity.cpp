@@ -1,10 +1,17 @@
 #include "entity.hpp"
 
-Entity::Entity(sf::Vector2f position, sf::Vector2f size, sf::Color color):
+Entity::Entity(sf::Vector2f position, sf::Shape& shape, sf::Color color):
 	position(position),
-	size(size),
+	shape(shape),
 	color(color)
-{}
+{
+	shape.setFillColor(color);
+	shape.setPosition(position);
+}
+
+void Entity::draw(sf::RenderWindow & window) const {
+	window.draw(shape);
+}
 
 void Entity::move(sf::Vector2f delta) {
 	position += delta;
@@ -21,30 +28,6 @@ void Entity::jump(sf::Vector2i target) {
 	));
 }
 
-bool within(float x, float a, float b) {
-	return (x >= a) && (x <= b);
-}
-
-bool Entity::overlaps(const Entity & other) {
-	bool x_overlap = within(
-		position.x,
-		other.position.x,
-		other.position.x + other.size.x
-	) || within(
-		other.position.x,
-		position.x,
-		position.x + size.x
-	);
-
-	bool y_overlap = within(
-		position.y,
-		other.position.y,
-		other.position.y + other.size.y
-	) || within(
-		other.position.y,
-		position.y,
-		position.y + size.y
-	);
-
-	return x_overlap && y_overlap;
+bool Entity::overlaps(const Entity& other) {
+	return shape.getGlobalBounds().intersects(other.shape.getGlobalBounds());
 }

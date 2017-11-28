@@ -1,16 +1,9 @@
 #include "rectangle.hpp"
 
-Rectangle::Rectangle(sf::Vector2f position, sf::Color color, sf::Vector2f size):
-	Entity(position, size, color),
-	rectangle(size)
-{
-	rectangle.setFillColor(color);
-}
-
-void Rectangle::draw(sf::RenderWindow& window) const {
-	window.draw(rectangle);
-}
+Rectangle::Rectangle(sf::Vector2f position, sf::Color color, sf::RectangleShape& shape):
+	Entity(position, shape, color)
+{}
 
 void Rectangle::update(sf::RenderWindow& window) {
-	rectangle.setPosition(position);
+	shape.setPosition(position);
 }

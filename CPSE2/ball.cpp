@@ -1,24 +1,15 @@
 #include "ball.hpp"
 #include <math.h>
 
-Ball::Ball(sf::Vector2f position, sf::Color color, float size):
-	Entity(position, sf::Vector2f(size * 2, size * 2), color),
-	circle(size),
+Ball::Ball(sf::Vector2f position, sf::Color color, sf::CircleShape& shape):
+	Entity(position, shape, color),
 	velocity(speed, speed)
-{
-	circle.setFillColor(color);
-}
-
-void Ball::draw(sf::RenderWindow & window) const {
-	window.draw(circle);
-}
+{}
 
 void Ball::update(sf::RenderWindow & window) {
 	move(velocity);
-	circle.setPosition(position);
+	shape.setPosition(position);
 }
-
-#include <iostream>
 
 void Ball::interact(const Entity& other) {
 	if (overlaps(other)) {

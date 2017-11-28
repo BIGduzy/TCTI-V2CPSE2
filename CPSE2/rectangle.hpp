@@ -4,12 +4,9 @@
 #include "entity.hpp"
 
 class Rectangle: public Entity {
-private:
-	sf::RectangleShape rectangle;
 public:
-	Rectangle(sf::Vector2f position, sf::Color color, sf::Vector2f size);
+	Rectangle(sf::Vector2f position, sf::Color color, sf::RectangleShape& shape);
 
-	void draw(sf::RenderWindow& window) const override;
 	void update(sf::RenderWindow& window) override;
 };
 

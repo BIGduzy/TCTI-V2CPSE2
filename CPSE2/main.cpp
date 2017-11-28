@@ -50,22 +50,30 @@ int main(int argc, char *argv[]) {
 
 	constexpr const float windowWidth = 640.0;
 	constexpr const float windowHeight = 480.0;
-	constexpr const uint8_t rectSize = 40;
+	constexpr const float rectSize = 40;
 
 	sf::RenderWindow window{ sf::VideoMode{ static_cast<unsigned int>(windowWidth), static_cast<unsigned int>(windowHeight) }, "SFML window" };
 
-	
+	sf::CircleShape myBallShape{30};
+	sf::CircleShape myBall2Shape{ 30 };
 
-	Ball my_ball(sf::Vector2f{ 100.0, 100.0 }, sf::Color(55, 44, 255));
-	Ball my_ball2(sf::Vector2f{ 500, 50.0 }, sf::Color(255, 44, 255));
-	Rectangle wallUpper(sf::Vector2f(0.0, 0.0), sf::Color(22, 22, 22), sf::Vector2f(windowWidth, rectSize));
-	Rectangle wallRight(sf::Vector2f(windowWidth - rectSize, 0.0), sf::Color(22, 22, 22), sf::Vector2f(rectSize, windowHeight));
-	Rectangle wallLower(sf::Vector2f(0.0, windowHeight - rectSize), sf::Color(22, 22, 22), sf::Vector2f(windowWidth, rectSize));
-	Rectangle wallLeft(sf::Vector2f(0.0, 0.0), sf::Color(22, 22, 22), sf::Vector2f(rectSize, windowHeight));
-	Rectangle block(sf::Vector2f(windowWidth / 2 - rectSize, windowHeight / 2 - rectSize), sf::Color(255, 22, 22), sf::Vector2f(rectSize, rectSize));
+	Ball myBall(sf::Vector2f{ 100.0, 100.0 }, sf::Color(55, 44, 255), myBallShape);
+	Ball myBall2(sf::Vector2f{ 500, 50.0 }, sf::Color(255, 44, 255), myBall2Shape);
+
+	sf::RectangleShape wallUpperShape{sf::Vector2f{windowWidth, rectSize}};
+	sf::RectangleShape wallRightShape{sf::Vector2f{rectSize, windowHeight}};
+	sf::RectangleShape wallLowerShape{sf::Vector2f{windowWidth, rectSize}};
+	sf::RectangleShape wallLeftShape{sf::Vector2f{rectSize, windowHeight}};
+	sf::RectangleShape blockShape{sf::Vector2f{rectSize, rectSize}};
+
+	Rectangle wallUpper(sf::Vector2f(0.0, 0.0), sf::Color(22, 22, 22), wallUpperShape);
+	Rectangle wallRight(sf::Vector2f(windowWidth - rectSize, 0.0), sf::Color(22, 22, 22), wallRightShape);
+	Rectangle wallLower(sf::Vector2f(0.0, windowHeight - rectSize), sf::Color(22, 22, 22), wallLowerShape);
+	Rectangle wallLeft(sf::Vector2f(0.0, 0.0), sf::Color(22, 22, 22), wallLeftShape);
+	Rectangle block(sf::Vector2f(windowWidth / 2 - rectSize, windowHeight / 2 - rectSize), sf::Color(255, 22, 22), blockShape);
 	Entity* entities[] = {
-		&my_ball,
-		&my_ball2,
+		&myBall,
+		&myBall2,
 		&wallUpper,
 		&wallRight,
 		&wallLower,
@@ -91,6 +99,7 @@ int main(int argc, char *argv[]) {
 			entity->update(window);
 			entity->draw(window);
 
+			int i = 0;
 			for (auto& other : entities) {
 				if (entity != other) {
 					entity->interact(*other);

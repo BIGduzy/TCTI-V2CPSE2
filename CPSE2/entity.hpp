@@ -5,12 +5,13 @@
 class Entity {
 protected:
 	sf::Vector2f position;
-	sf::Vector2f size;
 	sf::Color color;
 public:
-	Entity(sf::Vector2f position, sf::Vector2f size, sf::Color color);
+	sf::Shape& shape;
+public:
+	Entity(sf::Vector2f position, sf::Shape& shape, sf::Color color);
 
-	virtual void draw(sf::RenderWindow & window) const = 0;
+	virtual void draw(sf::RenderWindow & window) const;
 	virtual void update(sf::RenderWindow & window) = 0;
 
 	virtual void move(sf::Vector2f delta);
@@ -20,6 +21,6 @@ public:
 	virtual void interact(const Entity& other) {};
 
 protected:
-	bool overlaps(const Entity & other);
+	bool overlaps(const Entity& other);
 };
 
